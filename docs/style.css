@@ -1,14 +1,16 @@
 body {
-    background-image: url(images/background2.png);
+    height: 100vh;
+    background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
+    background-repeat: no-repeat;
     position: relative;
-    z-index: 0;
 }
 
 .panel{
     padding: 50% 20px;
     margin: 5% 15%;
-    color: white;
-    background: #cde4ff;
-    border-top: solid 5px #5989cf;
-    border-bottom: solid 5px #5989cf;
+    background: #fafafa;
+}
+
+.panel-in>p{
+    color: #323232;
 }
