@@ -1,17 +1,74 @@
-body {
+@media screen and (max-width: 400px) {
+    /*.back {
     height: 100vh;
     background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
     background-repeat: no-repeat;
     background-size: cover;
+    }*/
+    .panel {
+        width: 80%;
+        height: 20vh;
+        padding: 50vh 20px;
+        margin: 5vh auto;
+        border-radius: 10px;
+        background: #5958d0;
+    }
+    .nextButton {
+        color: #5958d0;
+        vertical-align: middle;
+        margin: 6px;
+        line-height: 1.42;
+        padding: 3% 5%;
+        font-weight: normal;
+        text-align: center;
+        border-width: 2px;
+        border-style: solid;
+        background: transparent;
+        border-radius: 10px;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        border-style: solid;
+        overflow: hidden;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .panel-in>p {
+        color: #323232;
+    }
 }
 
-.panel{
-    padding: 50% 20px;
-    margin: 5% 15%;
-    border-radius: 10px;
-    background: #fafafa;
-}
-
-.panel-in>p{
-    color: #323232;
-}
+/*.back {
+    height: 100vh;
+    background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    }*/
+    .panel {
+        width: 80%;
+        padding: 50% 20px;
+        margin: 5% auto;
+        border-radius: 10px;
+        background: #5958d0;
+    }
+    .nextButton {
+        color: #5958d0;
+        vertical-align: middle;
+        margin: 6px;
+        line-height: 1.42;
+        padding: 3% 5%;
+        font-weight: normal;
+        text-align: center;
+        border-width: 2px;
+        border-style: solid;
+        background: transparent;
+        border-radius: 10px;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        border-style: solid;
+        overflow: hidden;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .panel-in>p {
+        color: #323232;
+    }
