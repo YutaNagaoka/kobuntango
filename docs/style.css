@@ -5,7 +5,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     }*/
-    .panel {
+    #panel {
         width: 80vw;
         height: 70vh;
         margin: 5vh auto;
@@ -17,7 +17,7 @@
         line-height: 2rem;
         overflow: hidden;
     }
-    .nextButton {
+    #nextButton {
         width: 80vw;
         height: 5vh;
         margin: 0vw 4vh;
@@ -29,12 +29,12 @@
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
     }
 
-    .nextButton:active{
+    #nextButton:active{
         box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
         transform: translateY(2px);
     }
 
-    .panel-in p {
+    #panel-in p {
         color: #323232;
         padding: 30vh 0px;
     }
@@ -47,7 +47,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     }*/
-    .panel {
+    #panel {
         width: 80%;
         height: 20vh;
         margin: 5vh auto;
@@ -56,7 +56,7 @@
         text-align: center;
         font-size: 8vw;
     }
-    .nextButton {
+    #nextButton {
         color: #5958d0;
         vertical-align: middle;
         margin: 10vw;
@@ -75,7 +75,7 @@
         overflow: hidden;
         transition: background-color 0.3s, color 0.3s;
     }
-    .panel-in>p {
+    #panel-in>p {
         color: #323232;
     }
 }

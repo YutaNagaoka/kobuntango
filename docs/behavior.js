@@ -1,4 +1,5 @@
-var btn1 = document.getElementById("btn1");
-btn1.addEventListener("click", function () {
-    alert("Button pushed.");
-}, false);
+var button = document.getElementById("nextButton");
+button.onclick = function () {
+    const elem = document.getElementById("panel-in").value;
+    elem.textContent = "HOGE";
+};
