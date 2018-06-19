@@ -5,20 +5,27 @@ const wordDict = {
     "あきらむ": "明らかにする 晴らす"
 }
 
-function selectPairRandomly(wordDict) {
+function selectKeyRandomly(wordDict) {
     const keysArray = Object.keys(wordDict);
     const dictLength = keysArray.length;
     const index = Math.floor(Math.random() * dictLength);
     const key = keysArray[index];
-    return [key, wordDict[key]];
+    return key;
 }
 
-const button = document.getElementById("nextButton");
+const buttonElems = document.getElementsByClassName("phaseButton");
+const buttons = Array.from(buttonElems);
 const kogo = document.getElementById("kogo");
 const gendaigo = document.getElementById("gendaigo");
 
-button.onclick = function () {
-    const content = selectPairRandomly(wordDict);
-    kogo.textContent = content[0];
-    gendaigo.textContent = content[1];
+// "次へ"のボタン
+buttons[1].onclick = function () {
+    const selectedWord = selectKeyRandomly(wordDict);
+    kogo.textContent = selectedWord;
+    gendaigo.textContent = "";
+};
+
+// "意味を表示"のボタン
+buttons[0].onclick = function () {
+    gendaigo.textContent = wordDict[kogo.textContent];
 };
