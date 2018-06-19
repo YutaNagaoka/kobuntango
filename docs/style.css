@@ -34,9 +34,8 @@
         transform: translateY(2px);
     }
 
-    #panel-in p {
+    #panel p {
         color: #323232;
-        padding: 30vh 0px;
     }
 }
 
@@ -75,7 +74,7 @@
         overflow: hidden;
         transition: background-color 0.3s, color 0.3s;
     }
-    #panel-in {
+    #panel p {
         color: #323232;
     }
 }
