@@ -1,38 +1,13 @@
-const fetchDict = (selection) => {
-    let url = "https://script.google.com/macros/s/AKfycbwm3mG_PUYvY4YvAIACtWcC0yQvkp_hK4cxH4sUULwIT_VBWeq6/exec"
-    url += "?num=" + selection;
-    //var wordDict = null;
-    fetch(url)
-        .then(responce => {
-            responce.json();
-        });
-    //return wordDict;
-}
-
-const getDict = (selection) => {
-    let url = "https://script.google.com/macros/s/AKfycbwm3mG_PUYvY4YvAIACtWcC0yQvkp_hK4cxH4sUULwIT_VBWeq6/exec"
-    url += "?num=" + selection;
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = () => {
-        if (this.readyState == 4 && this.status == 200){
-            const myJson = JSON.parse(xhr.responseText);
-            console.log(myJson);
-            return myJson;
-        }
-    };
-    xhr.open('GET', url);
-    xhr.send(null);
-}
-
 const selectKeyRandomly = (wordDict) => {
     const keysArray = Object.keys(wordDict);
     const dictLength = keysArray.length;
     const index = Math.floor(Math.random() * dictLength);
     const key = keysArray[index];
     return key;
-}
+};
 
-const wordDict = getDict("a");
+// const wordDict = getDict("a");
+const wordDict = words_1;
 const buttonElems = document.getElementsByClassName("phaseButton");
 const buttons = Array.from(buttonElems);
 const kogo = document.getElementById("kogo");
