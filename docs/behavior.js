@@ -38,7 +38,7 @@ const buttons = Array.from(buttonElems);
 const kogo = document.getElementById("kogo");
 const gendaigo = document.getElementById("gendaigo");
 
-// "次へ"のボタン
+// Event hundler for button of "次へ"
 buttons[1].onclick = function () {
     const question = selectKeyRandomly(wordDict);
     if (question === undefined) {
@@ -50,7 +50,7 @@ buttons[1].onclick = function () {
     gendaigo.textContent = "";
 };
 
-// "意味を表示"のボタン
+// Event hundler for button of "意味を表示"
 buttons[0].onclick = function () {
     const question = kogo.textContent;
     const answer = formatAnswer(question);
