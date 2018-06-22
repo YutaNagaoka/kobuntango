@@ -38,14 +38,14 @@
         color: #d05958;
     }
     #kogo {
-        color: #323232;
         padding-top: 10vh;
+        color: #323232;
         font-family: "Noto Sans CJK JP Medium";
         font-size: 12vw;
     }
     #gendaigo {
-        color: #323232;
         padding-top: 5vh;
+        color: #323232;
         font-family: "Noto Sans CJK JP Regular";
         font-size: 8vw;
     }

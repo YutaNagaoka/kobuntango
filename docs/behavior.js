@@ -52,6 +52,9 @@ buttons[1].onclick = function () {
 
 // Event hundler for button of "意味を表示"
 buttons[0].onclick = function () {
+    if (gendaigo.textContent !== ""){
+        return;
+    }
     const question = kogo.textContent;
     const answer = formatAnswer(question);
     gendaigo.innerHTML = answer;
