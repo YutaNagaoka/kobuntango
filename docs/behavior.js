@@ -1,7 +1,7 @@
 /**
  * Select key randomly from hash.
- * @param {Object} wordDict : Input hash.
- * @returns {String} key : Key selected randomly.
+ * @param {Object} wordDict  Input hash.
+ * @returns {String} Key selected randomly.
  */
 const selectKeyRandomly = (wordDict) => {
     const keysArray = Object.keys(wordDict);
@@ -13,8 +13,8 @@ const selectKeyRandomly = (wordDict) => {
 
 /**
  * Get value from wordDict with key and replace space for <br> tag.
- * @param {String} key : Key to indicate value.
- * @returns {String} formattedAnswer
+ * @param {String} key  Key to indicate value.
+ * @returns {String} The answer formatted suitablly.
  */
 const formatAnswer = (key) => {
     const answerText = wordDict[key];
@@ -25,7 +25,7 @@ const formatAnswer = (key) => {
 
 /**
  * 
- * @param {String} key : Key to indicate value you want to delete.
+ * @param {String} key  Key to indicate value you want to delete.
  * @returns {Void}
  */
 const archiveWord = (key) => {
