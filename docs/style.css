@@ -31,7 +31,8 @@
     #nextButton:active {
         box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
         transform: translateY(2px);
-    }/*
+    }
+    /*
     .phaseButton#showButton {
         border-left: solid 10px #5958d0;
         color: #5958d0;
@@ -42,15 +43,25 @@
     }*/
     #kogo {
         padding-top: 10vh;
+        z-index: -1;
         color: #323232;
         font-family: "Noto Sans CJK JP Medium";
         font-size: 12vw;
     }
     #gendaigo {
         padding-top: 5vh;
+        z-index: -1;
         color: #323232;
         font-family: "Noto Sans CJK JP Regular";
         font-size: 8vw;
+    }
+    #seekbar {
+        margin-left: 8vw;
+        width: 80vw;
+        height: 5vh;
+        margin-top: -10vh;
+        position: fixed;
+        background: #323232;
     }
 }
 

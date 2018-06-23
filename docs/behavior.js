@@ -34,6 +34,7 @@ const nextQuestion = () => {
     }
     else {
         kogo.textContent = question;
+        _updateSeekbar();
     }
     gendaigo.textContent = "";
 };
@@ -72,9 +73,27 @@ const archiveWord = (key) => {
     delete wordDict[key];
 };
 
-const wordDict = words_2;
+/**
+ * 
+ */
+const updateSeekbar = () => {
+    let width = seekbar.style.width;
+    let QNumber = Object.keys(wordDict).length;
+    const OriginalQNumber = QNumber;
+    
+    return function(){
+        QNumber -= 1;
+        width = 1 - QNumber / OriginalQNumber;
+        console.log(width);
+        // seekbar.style.width *= width;
+    };
+};
+
+const wordDict = words_1;
 const kogo = document.getElementById("kogo");
 const gendaigo = document.getElementById("gendaigo");
 const nextButton = document.getElementById("nextButton");
+const seekbar = document.getElementById("seekbar");
 
 nextButton.addEventListener("click", buttonHundler);
+_updateSeekbar = updateSeekbar();
