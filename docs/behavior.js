@@ -32,7 +32,7 @@ const archiveWord = (key) => {
     delete wordDict[key];
 };
 
-const wordDict = words_1;
+const wordDict = words_2;
 const buttonElems = document.getElementsByClassName("phaseButton");
 const buttons = Array.from(buttonElems);
 const kogo = document.getElementById("kogo");
