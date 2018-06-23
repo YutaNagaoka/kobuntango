@@ -2,6 +2,7 @@
 @media screen and (max-width: 420px) {
     body {
         font-family: "Noto Sans CJK JP Regular";
+        background-color: #eae8e1;
     }
     #panel {
         width: 80vw;
@@ -14,21 +15,23 @@
         line-height: 2rem;
         overflow: hidden;
     }
-    .phaseButton {
+    #nextButton {
         width: 80vw;
-        height: 6vh;
+        height: 10vh;
         margin: 0vh 7.5vw 2vh;
         text-align: center;
         font-family: "Noto Sans CJK JP Regular";
         font-size: 6vw;
         background: #e7e7e7;
+        color: #51C54A;
         border-style: none;
+        border-left: solid 10px #51C54A;
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
     }
     .phaseButton:active {
         box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
         transform: translateY(2px);
-    }
+    }/*
     .phaseButton#showButton {
         border-left: solid 10px #5958d0;
         color: #5958d0;
@@ -36,7 +39,7 @@
     .phaseButton#nextButton {
         border-left: solid 10px #d05958;
         color: #d05958;
-    }
+    }*/
     #kogo {
         padding-top: 10vh;
         color: #323232;
