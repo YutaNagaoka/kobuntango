@@ -2,7 +2,7 @@
  * Function which deals with button event.
  */
 const buttonHundler = () => {
-    if (kogo.textContent === ""){
+    if (kogo.textContent === "") {
         nextQuestion();
     }
     else if (gendaigo.textContent === "") {
@@ -17,7 +17,7 @@ const buttonHundler = () => {
  * Called when you want to show the answer.
  */
 const showAnswer = () => {
-    if (kogo.textContent === "終了"){ return; }
+    if (kogo.textContent === "終了") { return; }
     let question = kogo.textContent;
     let answer = formatAnswer(question);
     gendaigo.innerHTML = answer;
@@ -34,7 +34,8 @@ const nextQuestion = () => {
     }
     else {
         kogo.textContent = question;
-        _updateSeekbar();
+        currentWidth = _determineSeekbarWidth.next().value;
+        seekbar.style.width = currentWidth + "vw"; 
     }
     gendaigo.textContent = "";
 };
@@ -74,20 +75,22 @@ const archiveWord = (key) => {
 };
 
 /**
- * 
+ * Generator returns next seekbar length.
+ * @returns {Float} Next seekbar length which changes every question.
  */
-const updateSeekbar = () => {
-    let width = seekbar.style.width;
+function* determineSeekbarWidth() {
+    // let OriginalWidth = parseInt(seekbar.style.width);
+    let OriginalWidth = 80;
+    console.log(seekbar.style.width);
     let QNumber = Object.keys(wordDict).length;
     const OriginalQNumber = QNumber;
-    
-    return function(){
+
+    while (QNumber > 0) {
         QNumber -= 1;
-        width = 1 - QNumber / OriginalQNumber;
-        console.log(width);
-        // seekbar.style.width *= width;
-    };
-};
+        width = OriginalWidth * QNumber / OriginalQNumber;
+        yield width;
+    }
+}
 
 const wordDict = words_1;
 const kogo = document.getElementById("kogo");
@@ -96,4 +99,4 @@ const nextButton = document.getElementById("nextButton");
 const seekbar = document.getElementById("seekbar");
 
 nextButton.addEventListener("click", buttonHundler);
-_updateSeekbar = updateSeekbar();
+const _determineSeekbarWidth = determineSeekbarWidth();
