@@ -1,4 +1,46 @@
 /**
+ * Function which deals with button event.
+ */
+const buttonHundler = () => {
+    if (kogo.textContent === "") {
+        nextQuestion();
+    }
+    else if (gendaigo.textContent === "") {
+        showAnswer();
+    }
+    else if (gendaigo.textContent !== "") {
+        nextQuestion();
+    }
+};
+
+/**
+ * Called when you want to show the answer.
+ */
+const showAnswer = () => {
+    if (kogo.textContent === "終了") { return; }
+    let question = kogo.textContent;
+    let answer = formatAnswer(question);
+    gendaigo.innerHTML = answer;
+    archiveWord(question);
+};
+
+/**
+ * Called when you move on next question.
+ */
+const nextQuestion = () => {
+    let question = selectKeyRandomly(wordDict);
+    if (question === undefined) {
+        kogo.textContent = "終了";
+    }
+    else {
+        kogo.textContent = question;
+        currentWidth = _determineSeekbarWidth.next().value;
+        seekbar.style.width = currentWidth + "vw"; 
+    }
+    gendaigo.textContent = "";
+};
+
+/**
  * Select key randomly from hash.
  * @param {Object} wordDict  Input hash.
  * @returns {String} Key selected randomly.
@@ -24,7 +66,7 @@ const formatAnswer = (key) => {
 };
 
 /**
- * 
+ * Delete element of wordDict indicated param key.
  * @param {String} key  Key to indicate value you want to delete.
  * @returns {Void}
  */
@@ -32,31 +74,29 @@ const archiveWord = (key) => {
     delete wordDict[key];
 };
 
-const wordDict = words_2;
-const buttonElems = document.getElementsByClassName("phaseButton");
-const buttons = Array.from(buttonElems);
+/**
+ * Generator returns next seekbar length.
+ * @returns {Float} Next seekbar length which changes every question.
+ */
+function* determineSeekbarWidth() {
+    // let OriginalWidth = parseInt(seekbar.style.width);
+    let OriginalWidth = 80;
+    console.log(seekbar.style.width);
+    let QNumber = Object.keys(wordDict).length;
+    const OriginalQNumber = QNumber;
+
+    while (QNumber > 0) {
+        QNumber -= 1;
+        width = OriginalWidth * QNumber / OriginalQNumber;
+        yield width;
+    }
+}
+
+const wordDict = words_1;
 const kogo = document.getElementById("kogo");
 const gendaigo = document.getElementById("gendaigo");
+const nextButton = document.getElementById("nextButton");
+const seekbar = document.getElementById("seekbar");
 
-// Event hundler for button of "次へ"
-buttons[1].onclick = function () {
-    const question = selectKeyRandomly(wordDict);
-    if (question === undefined) {
-        kogo.textContent = "終了";
-    }
-    else {
-        kogo.textContent = question;
-    }
-    gendaigo.textContent = "";
-};
-
-// Event hundler for button of "意味を表示"
-buttons[0].onclick = function () {
-    if (gendaigo.textContent !== ""){
-        return;
-    }
-    const question = kogo.textContent;
-    const answer = formatAnswer(question);
-    gendaigo.innerHTML = answer;
-    archiveWord(question);
-};
+nextButton.addEventListener("click", buttonHundler);
+const _determineSeekbarWidth = determineSeekbarWidth();
