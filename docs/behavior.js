@@ -1,101 +1,110 @@
-/**
- * Function which deals with button event.
- */
-const buttonHundler = () => {
-    if (kogo.textContent === "") {
-        nextQuestion();
-    }
-    else if (gendaigo.textContent === "") {
-        showAnswer();
-    }
-    else if (gendaigo.textContent !== "") {
-        nextQuestion();
-    }
-};
-
-/**
- * Called when you want to show the answer.
- */
-const showAnswer = () => {
-    if (kogo.textContent === "終了") { return; }
-    let question = kogo.textContent;
-    let answer = formatAnswer(question);
-    gendaigo.innerHTML = answer;
-    archiveWord(question);
-};
-
-/**
- * Called when you move on next question.
- */
-const nextQuestion = () => {
-    let question = selectKeyRandomly(wordDict);
-    if (question === undefined) {
-        kogo.textContent = "終了";
-    }
-    else {
-        kogo.textContent = question;
-        currentWidth = _determineSeekbarWidth.next().value;
-        seekbar.style.width = currentWidth + "vw"; 
-    }
-    gendaigo.textContent = "";
-};
-
-/**
- * Select key randomly from hash.
- * @param {Object} wordDict  Input hash.
- * @returns {String} Key selected randomly.
- */
-const selectKeyRandomly = (wordDict) => {
-    const keysArray = Object.keys(wordDict);
-    const dictLength = keysArray.length;
-    const index = Math.floor(Math.random() * dictLength);
-    const key = keysArray[index];
-    return key;
-};
-
-/**
- * Get value from wordDict with key and replace space for <br> tag.
- * @param {String} key  Key to indicate value.
- * @returns {String} The answer formatted suitablly.
- */
-const formatAnswer = (key) => {
-    const answerText = wordDict[key];
-    const splittedAnswer = answerText.split(" ");
-    let formattedAnswer = splittedAnswer.map(a => a + "<br>").join(" ");
-    return formattedAnswer;
-};
-
-/**
- * Delete element of wordDict indicated param key.
- * @param {String} key  Key to indicate value you want to delete.
- * @returns {Void}
- */
-const archiveWord = (key) => {
-    delete wordDict[key];
-};
-
-/**
- * Generator returns next seekbar length.
- * @returns {Float} Next seekbar length which changes every question.
- */
-function* determineSeekbarWidth() {
-    // let OriginalWidth = parseInt(seekbar.style.width);
-    let OriginalWidth = 80;
-    let QNumber = Object.keys(wordDict).length;
-    const OriginalQNumber = QNumber;
-
-    while (QNumber > 0) {
-        QNumber -= 1;
-        width = OriginalWidth * QNumber / OriginalQNumber;
-        yield width;
-    }
-}
-
-const wordDict = words_1;
 const kogo = document.getElementById("kogo");
 const gendaigo = document.getElementById("gendaigo");
 const nextButton = document.getElementById("nextButton");
 const seekbar = document.getElementById("seekbar");
 
-nextButton.addEventListener("click", buttonHundler);
-const _determineSeekbarWidth = determineSeekbarWidth();
+
+class QuizHundler {
+    constructor() {
+        this.wordDict = words_1;
+        this.allWordsNumber = Object.keys(this.wordDict).length;
+        this.currentWordsNumber = this.allWordsNumber;
+
+        // Force "this" to indicate this class's instance. 
+        const _bottonHundler = this.buttonHundler;
+        nextButton.onclick = _bottonHundler.bind(this)
+    }
+
+    /**
+     * Function which deals with button event.
+     */
+    buttonHundler() {
+        if (kogo.textContent === "") {
+            this.nextQuestion();
+        }
+        else if (gendaigo.textContent === "") {
+            this.showAnswer();
+        }
+        else if (gendaigo.textContent !== "") {
+            this.nextQuestion();
+        }
+    }
+
+    /**
+     * Called when you want to show the answer.
+     */
+    showAnswer() {
+        if (kogo.textContent === "終了") { return; }
+        const question = kogo.textContent;
+        const answer = this.formatAnswer(question);
+        gendaigo.innerHTML = answer;
+        this.archiveWord(question);
+    }
+
+    /**
+     * Called when you move on next question.
+     */
+    nextQuestion() {
+        const question = this.selectKeyRandomly(this.wordDict);
+        if (question === undefined) {
+            kogo.textContent = "終了";
+        }
+        else {
+            kogo.textContent = question;
+            const currentWidth = this.calculateSeekbarWidth();
+            seekbar.style.width = currentWidth + "vw";
+        }
+        gendaigo.textContent = "";
+    }
+
+    /**
+     * Select key randomly from hash.
+     * @param {Object} wordDict  Input hash.
+     * @returns {String} Key selected randomly.
+     */
+    selectKeyRandomly(wordDict) {
+        const keysArray = Object.keys(wordDict);
+        const dictLength = keysArray.length;
+        const index = Math.floor(Math.random() * dictLength);
+        const key = keysArray[index];
+        return key;
+    }
+
+    /**
+     * Get value from wordDict with key and replace space for <br> tag.
+     * @param {String} key  Key to indicate value.
+     * @returns {String} The answer formatted suitablly.
+     */
+    formatAnswer(key) {
+        const answerText = this.wordDict[key];
+        const splittedAnswer = answerText.split(" ");
+        let formattedAnswer = splittedAnswer.map(a => a + "<br>").join(" ");
+        return formattedAnswer;
+    }
+
+    /**
+     * Delete element of wordDict indicated param key.
+     * @param {String} key  Key to indicate value you want to delete.
+     * @returns {Void}
+     */
+    archiveWord(key) {
+        delete this.wordDict[key];
+        const previousWordsNumber = Object.keys(this.wordDict).length;
+        this.currentWordsNumber = previousWordsNumber;
+    }
+
+    /**
+     * Returns next seekbar length.
+     * @returns {Float} Next seekbar length which changes every question.
+     */
+    calculateSeekbarWidth() {
+        const OriginalWidth = 80;
+        const wordsNumber = this.currentWordsNumber;
+
+        const width = OriginalWidth * wordsNumber / this.allWordsNumber;
+        return width;
+    }
+}
+
+const quizHundler = new QuizHundler();
+
