@@ -81,7 +81,6 @@ const archiveWord = (key) => {
 function* determineSeekbarWidth() {
     // let OriginalWidth = parseInt(seekbar.style.width);
     let OriginalWidth = 80;
-    console.log(seekbar.style.width);
     let QNumber = Object.keys(wordDict).length;
     const OriginalQNumber = QNumber;
 
