@@ -42,7 +42,7 @@ class QuizHundler {
     }
 
     /**
-     * Called when you move on next question.
+     * Called when you want to move on next question.
      */
     nextQuestion() {
         const question = this.selectKeyRandomly(this.wordDict);
