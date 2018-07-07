@@ -6,19 +6,25 @@ const seekbar = document.getElementById("seekbar");
 const selectButtons = Array.from(document.getElementsByClassName("selectButton"));
 selectButtons.forEach((element, index) => {
     element.onclick = () => {
-        // const quizHundler = new QuizHundler(wordDicts[index]);
-        const quizHundler = new QuizHundler(wordDictsForTest);
+        const quizHundler = new QuizHundler(wordDicts[index]);
+        // const quizHundler = new QuizHundler(wordDictsForTest);
         hideModalWindow();
     };
 });
 
 
+/**
+ * Hide modal window element when select button has pushed.
+ */
 const hideModalWindow = () => {
     const modalWindow = document.getElementById("modal-window");
     modalWindow.style.display = "none";
 }
 
 
+/**
+ * Class to hundle quiz.
+ */
 class QuizHundler {
     constructor(wordDict) {
         this.wordDict = wordDict;
@@ -125,12 +131,13 @@ class QuizHundler {
         const width = OriginalWidth * wordsNumber / this.allWordsNumber;
         return width;
     }
-
+    
+    /**
+     * Overwrite width of seekbar directly.
+     * @param {Float} width Width of seekbar.
+     */
     updateSeekbarWidth(width) {
         const currentWidth = this.calculateSeekbarWidth();
         seekbar.style.width = currentWidth + "vw";
     }
 }
-
-// const quizHundler = new QuizHundler();
-
