@@ -59,7 +59,7 @@
         z-index: 2;
         position: fixed;
     }
-    .chooseBtn {
+    .selectButton {
         width: 70vw;
         height: 10vh;
         margin: 3vh 7.5vw;
