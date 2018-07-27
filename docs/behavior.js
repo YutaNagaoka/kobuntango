@@ -7,7 +7,6 @@ const selectButtons = Array.from(document.getElementsByClassName("selectButton")
 selectButtons.forEach((element, index) => {
     element.onclick = () => {
         const quizHundler = new QuizHundler(wordDicts[index]);
-        // const quizHundler = new QuizHundler(wordDictsForTest);
         hideModalWindow();
     };
 });
@@ -30,6 +29,7 @@ class QuizHundler {
         this.wordDict = wordDict;
         this.allWordsNumber = Object.keys(this.wordDict).length;
         this.currentWordsNumber = this.allWordsNumber;
+        this.uncertainWords = {};
         this.quizEndMessage = "終了"
 
         // Force "this" to indicate QuizHundler's instance
@@ -54,14 +54,12 @@ class QuizHundler {
         else if (gendaigo.textContent !== "") {
             this.nextQuestion();
         }
-
     }
 
     /**
      * Called when you want to show the answer.
      */
     showAnswer() {
-        if (kogo.textContent === this.quizEndMessage) { return; }
         const question = kogo.textContent;
         const answer = this.formatAnswer(question);
         gendaigo.innerHTML = answer;
@@ -75,12 +73,11 @@ class QuizHundler {
         const question = this.selectKeyRandomly(this.wordDict);
         if (question === undefined) {
             kogo.textContent = this.quizEndMessage;
-            this.updateSeekbarWidth();
         }
         else {
             kogo.textContent = question;
-            this.updateSeekbarWidth();
         }
+        this.updateSeekbarWidth();
         gendaigo.textContent = "";
     }
 
@@ -89,8 +86,8 @@ class QuizHundler {
      * @param {Object} wordDict  Input hash.
      * @returns {String} Key selected randomly.
      */
-    selectKeyRandomly(hash) {
-        const keysArray = Object.keys(hash);
+    selectKeyRandomly(wordDict) {
+        const keysArray = Object.keys(wordDict);
         const dictLength = keysArray.length;
         const index = Math.floor(Math.random() * dictLength);
         const key = keysArray[index];
@@ -119,25 +116,15 @@ class QuizHundler {
         const previousWordsNumber = Object.keys(this.wordDict).length;
         this.currentWordsNumber = previousWordsNumber;
     }
-
-    /**
-     * Returns next seekbar length.
-     * @returns {Float} Next seekbar length which changes every question.
-     */
-    calculateSeekbarWidth() {
-        const OriginalWidth = 80;
-        const wordsNumber = this.currentWordsNumber;
-
-        const width = OriginalWidth * wordsNumber / this.allWordsNumber;
-        return width;
-    }
     
     /**
-     * Overwrite width of seekbar directly.
-     * @param {Float} width Width of seekbar.
+     * Calculate next width of seekbar and overwrite it directly.
+     * @returns {Void}
      */
-    updateSeekbarWidth(width) {
-        const currentWidth = this.calculateSeekbarWidth();
-        seekbar.style.width = currentWidth + "vw";
+    updateSeekbarWidth() {
+        const OriginalWidth = 80;
+        const wordsNumber = this.currentWordsNumber;
+        const width = OriginalWidth * wordsNumber / this.allWordsNumber;
+        seekbar.style.width = width + "vw";
     }
 }
