@@ -1,75 +1,26 @@
-const kogo = document.getElementById("kogo");
-const gendaigo = document.getElementById("gendaigo");
-const nextButton = document.getElementById("nextButton");
-const seekbar = document.getElementById("seekbar");
-
-const selectButtons = Array.from(document.getElementsByClassName("selectButton"));
-selectButtons.forEach((element, index) => {
-    element.onclick = () => {
-        const quizHundler = new QuizHundler(wordDicts[index]);
-        hideModalWindow();
-    };
-});
-
-
-/**
- * Hide modal window element when select button has pushed.
+/** * Class to hundle quiz.
  */
-const hideModalWindow = () => {
-    const modalWindow = document.getElementById("modal-window");
-    modalWindow.style.display = "none";
-}
-
-
-/**
- * Class to hundle quiz.
- */
-class QuizHundler {
+class QuizOwner {
     constructor(wordDict) {
+        this.wordDict = {};
+        this.uncertainWords = {};
+
+        // Force "this" to indicate QuizOwner's instance
+        // because "this" indicates nextButton object.
+        //const _bottonHundler = this.buttonHundler;
+        //nextButton.onclick = _bottonHundler.bind(this);
+    }
+
+    setWordDict(wordDict) {
         this.wordDict = wordDict;
         this.allWordsNumber = Object.keys(this.wordDict).length;
         this.currentWordsNumber = this.allWordsNumber;
-        this.uncertainWords = {};
-        this.quizEndMessage = "終了"
-
-        // Force "this" to indicate QuizHundler's instance
-        // because "this" indicates nextButton object.
-        const _bottonHundler = this.buttonHundler;
-        nextButton.onclick = _bottonHundler.bind(this);
-    }
-
-    /**
-     * Function which deals with button event.
-     */
-    buttonHundler() {
-        if (kogo.textContent === "") {
-            this.nextQuestion();
-        }
-        else if (kogo.textContent === this.quizEndMessage) {
-            return;
-        }
-        else if (gendaigo.textContent === "") {
-            this.showAnswer();
-        }
-        else if (gendaigo.textContent !== "") {
-            this.nextQuestion();
-        }
-    }
-
-    /**
-     * Called when you want to show the answer.
-     */
-    showAnswer() {
-        const question = kogo.textContent;
-        const answer = this.formatAnswer(question);
-        gendaigo.innerHTML = answer;
-        this.archiveWord(question);
     }
 
     /**
      * Called when you want to move on next question.
      */
-    nextQuestion() {
+    returnNextQuestion() {
         const question = this.selectKeyRandomly(this.wordDict);
         if (question === undefined) {
             kogo.textContent = this.quizEndMessage;
@@ -77,8 +28,18 @@ class QuizHundler {
         else {
             kogo.textContent = question;
         }
-        this.updateSeekbarWidth();
+        updateSeekbarWidth();
         gendaigo.textContent = "";
+    }
+
+    /**
+     * Called when you want to show the answer.
+     */
+    returnAnswer() {
+        const question = kogo.textContent;
+        const answer = this.formatAnswer(question);
+        gendaigo.innerHTML = answer;
+        this.archiveWord(question);
     }
 
     /**
@@ -116,15 +77,64 @@ class QuizHundler {
         const previousWordsNumber = Object.keys(this.wordDict).length;
         this.currentWordsNumber = previousWordsNumber;
     }
-    
-    /**
-     * Calculate next width of seekbar and overwrite it directly.
-     * @returns {Void}
-     */
-    updateSeekbarWidth() {
-        const OriginalWidth = 80;
-        const wordsNumber = this.currentWordsNumber;
-        const width = OriginalWidth * wordsNumber / this.allWordsNumber;
-        seekbar.style.width = width + "vw";
+}
+
+// Declaration of constants.
+const kogo = document.getElementById("kogo");
+const gendaigo = document.getElementById("gendaigo");
+const seekbar = document.getElementById("seekbar");
+const quizEndMessage = "終了";
+const quizOwner = new QuizOwner();
+
+const selectButtons = Array.from(document.getElementsByClassName("selectButton"));
+selectButtons.forEach((element, index) => {
+    element.onclick = () => {
+        quizOwner.setWordDict(wordDicts[index]);
+        hideModalWindow();
+    };
+});
+
+const nextButtons = Array.from(document.getElementsByClassName("nextButton"));
+nextButtons.forEach((element) => {
+    element.onclick = () => {
+        buttonHundler();
+    };
+});
+
+/**
+ * Function which deals with button event.
+ */
+const buttonHundler = () => {
+    if (kogo.textContent === "") {
+        quizOwner.returnNextQuestion();
     }
+    else if (kogo.textContent === quizEndMessage) {
+        return;
+    }
+    else if (gendaigo.textContent === "") {
+        quizOwner.returnAnswer();
+    }
+    else if (gendaigo.textContent !== "") {
+        quizOwner.returnNextQuestion();
+    }
+}
+
+
+/**
+ * Hide modal window element when select button has pushed.
+ */
+const hideModalWindow = () => {
+    const modalWindow = document.getElementById("modal-window");
+    modalWindow.style.display = "none";
+}
+
+/**
+ * Calculate next width of seekbar and overwrite it directly.
+ * @returns {Void}
+ */
+const updateSeekbarWidth = () => {
+    const OriginalWidth = 80;
+    const wordsNumber = quizOwner.currentWordsNumber;
+    const width = OriginalWidth * wordsNumber / quizOwner.allWordsNumber;
+    seekbar.style.width = width + "vw";
 }
