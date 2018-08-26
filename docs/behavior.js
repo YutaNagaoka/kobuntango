@@ -1,14 +1,10 @@
-/** * Class to hundle quiz.
+/** 
+ *  Class to hundle quiz.
  */
 class QuizOwner {
     constructor(wordDict) {
         this.wordDict = {};
-        this.uncertainWords = {};
-
-        // Force "this" to indicate QuizOwner's instance
-        // because "this" indicates nextButton object.
-        //const _bottonHundler = this.buttonHundler;
-        //nextButton.onclick = _bottonHundler.bind(this);
+        this.quizEndMessage = "終了";
     }
 
     setWordDict(wordDict) {
@@ -22,7 +18,7 @@ class QuizOwner {
      */
     returnNextQuestion() {
         const question = this.selectKeyRandomly(this.wordDict);
-        if (question === undefined) {
+        if (!question) {
             kogo.textContent = this.quizEndMessage;
         }
         else {
@@ -79,12 +75,13 @@ class QuizOwner {
     }
 }
 
+
 // Declaration of constants.
 const kogo = document.getElementById("kogo");
 const gendaigo = document.getElementById("gendaigo");
 const seekbar = document.getElementById("seekbar");
-const quizEndMessage = "終了";
 const quizOwner = new QuizOwner();
+const uncertainWords = {};
 
 const selectButtons = Array.from(document.getElementsByClassName("selectButton"));
 selectButtons.forEach((element, index) => {
@@ -94,12 +91,15 @@ selectButtons.forEach((element, index) => {
     };
 });
 
-const nextButtons = Array.from(document.getElementsByClassName("nextButton"));
-nextButtons.forEach((element) => {
-    element.onclick = () => {
-        buttonHundler();
-    };
-});
+document.getElementById("uncertainButton").onclick = () => {
+    uncertainWords[kogo.textContent] = quizOwner.wordDict[kogo.textContent];
+    console.log(uncertainWords);
+    buttonHundler();
+};
+
+document.getElementById("sureButton").onclick = () => {
+    buttonHundler();
+};
 
 /**
  * Function which deals with button event.
@@ -108,8 +108,12 @@ const buttonHundler = () => {
     if (kogo.textContent === "") {
         quizOwner.returnNextQuestion();
     }
-    else if (kogo.textContent === quizEndMessage) {
-        return;
+    else if (kogo.textContent === quizOwner.quizEndMessage) {
+        var result = confirm("分からなかった単語をもう一度学習しますか?");
+        if (result) {
+            quizOwner.setWordDict(uncertainWords);
+            quizOwner.returnNextQuestion();
+        }
     }
     else if (gendaigo.textContent === "") {
         quizOwner.returnAnswer();
@@ -118,7 +122,6 @@ const buttonHundler = () => {
         quizOwner.returnNextQuestion();
     }
 }
-
 
 /**
  * Hide modal window element when select button has pushed.
