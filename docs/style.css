@@ -5,7 +5,7 @@
     #panel {
         width: 80vw;
         height: 70vh;
-        margin: 5vh auto;
+        margin: 5vh auto 2vh;
         text-align: center;
         background: #fefefe;
         background-image: linear-gradient(rgba(181, 181, 181, 0.3) .1em, transparent .1em);
@@ -23,8 +23,13 @@
     .nextButton {
         display: inline-block;
         width: 40vw;
-        height: 12vh;
+        height: 9vh;
         margin: 1vh 3.5vw 2vh;
+    }
+    #showAnswerButton {
+        width: 89vw;
+        height: 14vw;
+        margin: 0vh 3vw;
     }
     #sureButton {
         background: hsla(112, 52%, 51%, 1);
@@ -48,7 +53,7 @@
         margin-left: 8vw;
         width: 80vw;
         height: 5vh;
-        margin-top: -10vh;
+        margin-top: -7vh;
         position: fixed;
         background: #323232;
     }

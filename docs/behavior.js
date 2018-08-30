@@ -35,7 +35,7 @@ class QuizOwner {
         const question = kogo.textContent;
         const answer = this.formatAnswer(question);
         gendaigo.innerHTML = answer;
-        this.archiveWord(question);
+        // this.archiveWord(question);
     }
 
     /**
@@ -91,13 +91,19 @@ selectButtons.forEach((element, index) => {
     };
 });
 
+document.getElementById("showAnswerButton").onclick = () => {
+    buttonHundler();
+}
+
 document.getElementById("uncertainButton").onclick = () => {
-    uncertainWords[kogo.textContent] = quizOwner.wordDict[kogo.textContent];
+    uncertainWords[kogo.textContent] = quizOwner.wordDict[kogo.textContent]
+    quizOwner.archiveWord(kogo.textContent);
     console.log(uncertainWords);
     buttonHundler();
 };
 
 document.getElementById("sureButton").onclick = () => {
+    quizOwner.archiveWord(kogo.textContent)
     buttonHundler();
 };
 
