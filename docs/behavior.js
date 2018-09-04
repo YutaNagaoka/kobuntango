@@ -1,41 +1,84 @@
-/** 
- *  Class to hundle quiz.
- */
-class QuizOwner {
-    constructor(wordDict) {
-        this.wordDict = {};
-        this.quizEndMessage = "終了";
-    }
+const kogo = document.getElementById("kogo");
+const gendaigo = document.getElementById("gendaigo");
+const nextButton = document.getElementById("nextButton");
+const seekbar = document.getElementById("seekbar");
 
-    setWordDict(wordDict) {
+const selectButtons = Array.from(document.getElementsByClassName("selectButton"));
+selectButtons.forEach((element, index) => {
+    element.onclick = () => {
+        const quizHundler = new QuizHundler(wordDicts[index]);
+        hideModalWindow();
+    };
+});
+
+
+/**
+ * Hide modal window element when select button has pushed.
+ */
+const hideModalWindow = () => {
+    const modalWindow = document.getElementById("modal-window");
+    modalWindow.style.display = "none";
+}
+
+
+/**
+ * Class to hundle quiz.
+ */
+class QuizHundler {
+    constructor(wordDict) {
         this.wordDict = wordDict;
         this.allWordsNumber = Object.keys(this.wordDict).length;
         this.currentWordsNumber = this.allWordsNumber;
+        this.uncertainWords = {};
+        this.quizEndMessage = "終了"
+
+        // Force "this" to indicate QuizHundler's instance
+        // because "this" indicates nextButton object.
+        const _bottonHundler = this.buttonHundler;
+        nextButton.onclick = _bottonHundler.bind(this);
     }
 
     /**
-     * Called when you want to move on next question.
+     * Function which deals with button event.
      */
-    returnNextQuestion() {
-        const question = this.selectKeyRandomly(this.wordDict);
-        if (!question) {
-            kogo.textContent = this.quizEndMessage;
+    buttonHundler() {
+        if (kogo.textContent === "") {
+            this.nextQuestion();
         }
-        else {
-            kogo.textContent = question;
+        else if (kogo.textContent === this.quizEndMessage) {
+            return;
         }
-        updateSeekbarWidth();
-        gendaigo.textContent = "";
+        else if (gendaigo.textContent === "") {
+            this.showAnswer();
+        }
+        else if (gendaigo.textContent !== "") {
+            this.nextQuestion();
+        }
     }
 
     /**
      * Called when you want to show the answer.
      */
-    returnAnswer() {
+    showAnswer() {
         const question = kogo.textContent;
         const answer = this.formatAnswer(question);
         gendaigo.innerHTML = answer;
-        // this.archiveWord(question);
+        this.archiveWord(question);
+    }
+
+    /**
+     * Called when you want to move on next question.
+     */
+    nextQuestion() {
+        const question = this.selectKeyRandomly(this.wordDict);
+        if (question === undefined) {
+            kogo.textContent = this.quizEndMessage;
+        }
+        else {
+            kogo.textContent = question;
+        }
+        this.updateSeekbarWidth();
+        gendaigo.textContent = "";
     }
 
     /**
@@ -73,77 +116,15 @@ class QuizOwner {
         const previousWordsNumber = Object.keys(this.wordDict).length;
         this.currentWordsNumber = previousWordsNumber;
     }
-}
-
-
-// Declaration of constants.
-const kogo = document.getElementById("kogo");
-const gendaigo = document.getElementById("gendaigo");
-const seekbar = document.getElementById("seekbar");
-const quizOwner = new QuizOwner();
-const uncertainWords = {};
-
-const selectButtons = Array.from(document.getElementsByClassName("selectButton"));
-selectButtons.forEach((element, index) => {
-    element.onclick = () => {
-        quizOwner.setWordDict(wordDicts[index]);
-        hideModalWindow();
-    };
-});
-
-document.getElementById("showAnswerButton").onclick = () => {
-    buttonHundler();
-}
-
-document.getElementById("uncertainButton").onclick = () => {
-    uncertainWords[kogo.textContent] = quizOwner.wordDict[kogo.textContent]
-    quizOwner.archiveWord(kogo.textContent);
-    console.log(uncertainWords);
-    buttonHundler();
-};
-
-document.getElementById("sureButton").onclick = () => {
-    quizOwner.archiveWord(kogo.textContent)
-    buttonHundler();
-};
-
-/**
- * Function which deals with button event.
- */
-const buttonHundler = () => {
-    if (kogo.textContent === "") {
-        quizOwner.returnNextQuestion();
+    
+    /**
+     * Calculate next width of seekbar and overwrite it directly.
+     * @returns {Void}
+     */
+    updateSeekbarWidth() {
+        const OriginalWidth = 80;
+        const wordsNumber = this.currentWordsNumber;
+        const width = OriginalWidth * wordsNumber / this.allWordsNumber;
+        seekbar.style.width = width + "vw";
     }
-    else if (kogo.textContent === quizOwner.quizEndMessage) {
-        var result = confirm("分からなかった単語をもう一度学習しますか?");
-        if (result) {
-            quizOwner.setWordDict(uncertainWords);
-            quizOwner.returnNextQuestion();
-        }
-    }
-    else if (gendaigo.textContent === "") {
-        quizOwner.returnAnswer();
-    }
-    else if (gendaigo.textContent !== "") {
-        quizOwner.returnNextQuestion();
-    }
-}
-
-/**
- * Hide modal window element when select button has pushed.
- */
-const hideModalWindow = () => {
-    const modalWindow = document.getElementById("modal-window");
-    modalWindow.style.display = "none";
-}
-
-/**
- * Calculate next width of seekbar and overwrite it directly.
- * @returns {Void}
- */
-const updateSeekbarWidth = () => {
-    const OriginalWidth = 80;
-    const wordsNumber = quizOwner.currentWordsNumber;
-    const width = OriginalWidth * wordsNumber / quizOwner.allWordsNumber;
-    seekbar.style.width = width + "vw";
 }
