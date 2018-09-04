@@ -22,9 +22,10 @@
     }
     #nextButton {
         display: inline-block;
-        width: 40vw;
-        height: 9vh;
-        margin: 1vh 3.5vw 2vh;
+        width: 70vw;
+        height: 12vh;
+        margin: 3vh 13.5vw 2vh;
+        background-color: #5ed640
     }
     #kogo {
         padding-top: 10vh;
